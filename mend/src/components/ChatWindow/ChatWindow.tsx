@@ -26,8 +26,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, position, onPos
   // Calculate initial window position based on bubble position
   useEffect(() => {
     const initialPosition = {
-      x: Math.min(position.x - 210, window.innerWidth - 440),
-      y: Math.min(position.y - 325, window.innerHeight - 670),
+      x: Math.min(position.x - 240, window.innerWidth - 500), // Center on bubble, but keep in viewport
+      y: Math.min(position.y - 360, window.innerHeight - 740), // Center on bubble, but keep in viewport
     };
     setWindowPosition({
       x: Math.max(20, initialPosition.x),
@@ -43,8 +43,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, position, onPos
         let newY = e.clientY - offset.current.y;
 
         // clamp inside viewport
-        newX = Math.max(0, Math.min(window.innerWidth - 420, newX));
-        newY = Math.max(0, Math.min(window.innerHeight - 650, newY));
+        newX = Math.max(0, Math.min(window.innerWidth - 480, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - 720, newY));
 
         setWindowPosition({ x: newX, y: newY });
         onPositionChange?.(newX, newY);
@@ -124,6 +124,10 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, position, onPos
     }
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setMessage(suggestion);
+  };
+
   return (
     <div 
       ref={windowRef}
@@ -138,13 +142,43 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, position, onPos
         onMouseDown={onMouseDown}
         style={{ cursor: 'grab' }}
       >
-        <span>AI Trading Assistant</span>
+        <span>Chat with Khalil & Najwa</span>
         <button className={styles.closeButton} onClick={onClose}>
           ×
         </button>
       </div>
       
       <div className={styles.chatMessages}>
+        {messages.length === 0 && (
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>💡</div>
+            <h3 className={styles.emptyTitle}>Ask me anything about trading!</h3>
+            <p className={styles.emptySubtitle}>
+              I can help you with market analysis, stock recommendations, portfolio insights, and more.
+            </p>
+            <div className={styles.suggestions}>
+              <div 
+                className={styles.suggestionChip}
+                onClick={() => handleSuggestionClick("What stocks should I watch today?")}
+              >
+                "What stocks should I watch today?"
+              </div>
+              <div 
+                className={styles.suggestionChip}
+                onClick={() => handleSuggestionClick("Analyze AAPL's recent performance")}
+              >
+                "Analyze AAPL's recent performance"
+              </div>
+              <div 
+                className={styles.suggestionChip}
+                onClick={() => handleSuggestionClick("What's the market sentiment?")}
+              >
+                "What's the market sentiment?"
+              </div>
+            </div>
+          </div>
+        )}
+        
         {messages.map((msg) => (
           <div
             key={msg.id}
