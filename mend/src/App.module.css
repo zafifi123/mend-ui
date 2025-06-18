@@ -1,0 +1,47 @@
+.page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F9FAFB;
+  color: #2E2E2E;
+}
+
+.header {
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 24px;
+  border-bottom: 1.5px solid #D1D5DB;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.tabBar {
+  display: flex;
+  border-bottom: 1.5px solid #D1D5DB;
+  background-color: #fff;
+  user-select: none;
+}
+
+.mainContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #FFFFFF;
+  margin: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.12), 0 10px 20px rgba(37, 99, 235, 0.1);
+  border: 1.5px solid #D1D5DB;
+}
+
+.explorePage {
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
+  color: #374151;
+  font-size: 18px;
+  line-height: 1.6;
+} 

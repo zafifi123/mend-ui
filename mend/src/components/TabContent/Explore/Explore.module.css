@@ -1,0 +1,20 @@
+.explorePage {
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
+  color: #374151;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.explorePage h2 {
+  color: #1F2937;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.explorePage p {
+  color: #4B5563;
+  font-size: 1.125rem;
+  line-height: 1.75;
+} 

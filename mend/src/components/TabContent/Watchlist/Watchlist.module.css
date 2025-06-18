@@ -1,0 +1,40 @@
+.watchlist {
+  padding: 1rem;
+}
+
+.watchlist h2 {
+  color: #1F2937;
+  margin-bottom: 2rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.watchlistTable {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 1rem 1.5rem;
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  font-weight: 600;
+  color: #374151;
+}
+
+.placeholder {
+  padding: 3rem;
+  text-align: center;
+  background-color: #F3F4F6;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.placeholder p {
+  color: #6B7280;
+  font-size: 1.125rem;
+  line-height: 1.75;
+} 

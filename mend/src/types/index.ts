@@ -1,0 +1,21 @@
+export interface TabProps {
+  name: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+export interface ChatBubbleProps {
+  onOpen: () => void;
+  position: { x: number; y: number };
+  onPositionChange: (x: number, y: number) => void;
+}
+
+export interface ChatWindowProps {
+  onClose: () => void;
+}
+
+export interface TabContentProps {
+  activeTab: string;
+}
+
+export type TabName = 'Explore' | 'Recommendations' | 'Watchlist' | 'Trade Status'; 

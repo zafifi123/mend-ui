@@ -1,0 +1,32 @@
+.recommendations {
+  padding: 1rem;
+}
+
+.recommendations h2 {
+  color: #1F2937;
+  margin-bottom: 2rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.placeholder {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background-color: #F3F4F6;
+  border-radius: 0.75rem;
+  border: 2px dashed #D1D5DB;
+}
+
+.placeholder p {
+  color: #6B7280;
+  font-size: 1.125rem;
+  line-height: 1.75;
+} 
