@@ -12,6 +12,8 @@ export interface ChatBubbleProps {
 
 export interface ChatWindowProps {
   onClose: () => void;
+  position: { x: number; y: number };
+  onPositionChange?: (x: number, y: number) => void;
 }
 
 export interface TabContentProps {

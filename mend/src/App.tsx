@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tab } from './components/Tab/Tab';
 import { ChatBubble } from './components/ChatBubble/ChatBubble';
 import { ChatWindow } from './components/ChatWindow/ChatWindow';
@@ -14,7 +14,19 @@ const TAB_NAMES: TabName[] = ['Explore', 'Recommendations', 'Watchlist', 'Trade 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabName>('Explore');
   const [chatOpen, setChatOpen] = useState(false);
-  const [chatPosition, setChatPosition] = useState({ x: 20, y: window.innerHeight - 100 });
+  const [chatPosition, setChatPosition] = useState({ x: 0, y: 0 });
+  const [chatWindowPosition, setChatWindowPosition] = useState({ x: 0, y: 0 });
+
+  // Set initial chat position after component mounts
+  useEffect(() => {
+    const centerX = window.innerWidth / 2 - 35;
+    const centerY = window.innerHeight / 2 - 35;
+    setChatPosition({ x: centerX, y: centerY });
+  }, []);
+
+  const handleChatWindowPositionChange = (x: number, y: number) => {
+    setChatWindowPosition({ x, y });
+  };
 
   function renderTabContent() {
     switch (activeTab) {
@@ -56,7 +68,13 @@ export default function App() {
         />
       )}
 
-      {chatOpen && <ChatWindow onClose={() => setChatOpen(false)} />}
+      {chatOpen && (
+        <ChatWindow 
+          onClose={() => setChatOpen(false)} 
+          position={chatPosition}
+          onPositionChange={handleChatWindowPositionChange}
+        />
+      )}
     </div>
   );
 }

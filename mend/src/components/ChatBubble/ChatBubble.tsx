@@ -6,16 +6,17 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ onOpen, position, onPosi
   const bubbleRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const offset = useRef({ x: 0, y: 0 });
+  const startPos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     function onMouseMove(e: MouseEvent) {
-      if (dragging.current && bubbleRef.current) {
+      if (dragging.current) {
         let newX = e.clientX - offset.current.x;
         let newY = e.clientY - offset.current.y;
 
         // clamp inside viewport
-        newX = Math.max(10, Math.min(window.innerWidth - 60, newX));
-        newY = Math.max(10, Math.min(window.innerHeight - 60, newY));
+        newX = Math.max(10, Math.min(window.innerWidth - 80, newX));
+        newY = Math.max(10, Math.min(window.innerHeight - 80, newY));
 
         onPositionChange(newX, newY);
       }
@@ -35,10 +36,26 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ onOpen, position, onPosi
   }, [onPositionChange]);
 
   function onMouseDown(e: React.MouseEvent) {
-    if (bubbleRef.current) {
-      dragging.current = true;
-      const rect = bubbleRef.current.getBoundingClientRect();
-      offset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    e.preventDefault();
+    e.stopPropagation();
+    
+    dragging.current = true;
+    startPos.current = { x: e.clientX, y: e.clientY };
+    
+    // Calculate offset from the current position
+    offset.current = { 
+      x: e.clientX - position.x, 
+      y: e.clientY - position.y 
+    };
+  }
+
+  function handleClick(e: React.MouseEvent) {
+    // Only open if we haven't dragged (or dragged very little)
+    const deltaX = Math.abs(e.clientX - startPos.current.x);
+    const deltaY = Math.abs(e.clientY - startPos.current.y);
+    
+    if (deltaX < 5 && deltaY < 5) {
+      onOpen();
     }
   }
 
@@ -47,12 +64,13 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ onOpen, position, onPosi
       ref={bubbleRef}
       className={styles.chatBubble}
       onMouseDown={onMouseDown}
-      onClick={onOpen}
+      onClick={handleClick}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
       }}
     >
-      ��
+      💬
     </div>
   );
 }; 

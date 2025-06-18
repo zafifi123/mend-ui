@@ -16,10 +16,16 @@ export async function fetchTradeSuggestions(symbol: string) {
 }
 
 export async function sendChatMessage(message: string) {
-  const res = await fetch(`${API_BASE}/chat`, {
+  const res = await fetch('http://localhost:11434/api/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message })
+    body: JSON.stringify({
+      model: 'llama3',
+      prompt: message,
+      stream: false
+    })
   });
-  return res.json();
+  
+  const data = await res.json();
+  return { message: data.response };
 }
