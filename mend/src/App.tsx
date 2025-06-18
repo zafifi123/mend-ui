@@ -45,7 +45,13 @@ export default function App() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>Mend Trading Assistant</header>
+      <header className={styles.header}>
+        <div className={styles.headerTitle}>
+          <span className={styles.headerIcon}>📈</span>
+          Mend Trading Assistant
+          <span className={styles.headerSubtitle}>AI-Powered Trading Insights</span>
+        </div>
+      </header>
 
       <nav className={styles.tabBar}>
         {TAB_NAMES.map((tab) => (

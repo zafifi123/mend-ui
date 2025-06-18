@@ -29,4 +29,389 @@
   color: #6B7280;
   font-size: 1.125rem;
   line-height: 1.75;
+}
+
+.recommendationsPage {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterSelect {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  color: #1F2937;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.recommendationCard {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.recommendationCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.recommendationCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.recommendationCard:hover::before {
+  opacity: 1;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.stockInfo {
+  flex: 1;
+}
+
+.symbol {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 0.25rem;
+}
+
+.name {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.recommendation {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.buy {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+}
+
+.hold {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+}
+
+.sell {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
+}
+
+.priceInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.currentPrice {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1F2937;
+}
+
+.change {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.positive {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.negative {
+  background: rgba(239, 68, 68, 0.1);
+  color: #DC2626;
+}
+
+.metrics {
+  margin-bottom: 1rem;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 80px;
+}
+
+.confidenceBar {
+  flex: 1;
+  height: 8px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.confidenceFill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.metricValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1F2937;
+  min-width: 40px;
+  text-align: right;
+}
+
+.reasoning {
+  margin-bottom: 1rem;
+}
+
+.reasoning h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.reasoning p {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+.meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metaLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.risk {
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.low {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.medium {
+  background: rgba(245, 158, 11, 0.1);
+  color: #D97706;
+}
+
+.high {
+  background: rgba(239, 68, 68, 0.1);
+  color: #DC2626;
+}
+
+.timeframe {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.actionButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.actionButton:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: #667eea;
+  transform: translateY(-1px);
+}
+
+.actionButton.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.actionButton.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.insights {
+  margin-top: 3rem;
+}
+
+.insights h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.insightsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.insightCard {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.insightCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.insightIcon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.insightCard h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 0.75rem;
+}
+
+.insightCard p {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
 } 
