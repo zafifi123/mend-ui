@@ -18,7 +18,7 @@
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 2.5fr 1fr 1fr 1fr 1fr 1.5fr 40px;
   padding: 1rem 1.5rem;
   background-color: #F9FAFB;
   border-bottom: 1px solid #E5E7EB;
@@ -37,4 +37,69 @@
   color: #6B7280;
   font-size: 1.125rem;
   line-height: 1.75;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 2.5fr 1fr 1fr 1fr 1fr 1.5fr 40px;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.actionsCell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: color 0.2s;
+  box-shadow: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  color: #374151;
+  background: none;
+}
+
+.removeIcon {
+  font-size: 1.2em;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.changePositive {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.changeNegative {
+  color: #dc2626;
+  font-weight: 600;
 } 
