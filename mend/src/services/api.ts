@@ -113,8 +113,9 @@ export async function getTrendingStocks() {
   if (!res.ok) throw new Error('Failed to fetch trending stocks');
   return res.json();
 }
-export async function getTopMovers() {
-  const res = await fetch(`${API_BASE}/movers`);
+
+export async function getTopMovers(): Promise<any[]> {
+  const res = await fetch(`${API_BASE}/market/movers`);
   if (!res.ok) throw new Error('Failed to fetch top movers');
   return res.json();
 }
@@ -392,4 +393,18 @@ Output the allocation array now:`;
     console.error('AI suggestion error:', error);
     throw error;
   }
+}
+
+// Get market overview data
+export async function getMarketOverview(): Promise<any[]> {
+  const res = await fetch(`${API_BASE}/market/overview`);
+  if (!res.ok) throw new Error('Failed to fetch market overview');
+  return res.json();
+}
+
+// Get user stats
+export async function getUserStats(): Promise<any> {
+  const res = await fetch(`${API_BASE}/users/123/stats`);
+  if (!res.ok) throw new Error('Failed to fetch user stats');
+  return res.json();
 }

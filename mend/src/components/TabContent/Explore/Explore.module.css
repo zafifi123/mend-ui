@@ -1,156 +1,492 @@
 .explorePage {
-  text-align: center;
-  max-width: 1200px;
-  margin: auto;
-  color: #374151;
-  font-size: 18px;
-  line-height: 1.7;
-}
-
-.welcomeCard {
-  background: white;
-  border-radius: 16px;
-  padding: 3rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
-  margin-bottom: 2rem;
-}
-
-.welcomeTitle {
-  font-size: 32px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
-}
-
-.welcomeSubtitle {
-  font-size: 18px;
-  color: #6B7280;
-  margin-bottom: 2rem;
-  font-weight: 500;
-}
-
-.featureGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.featureCard {
-  background: white;
-  border-radius: 12px;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
   padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
-.featureCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.mainContent {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.featureCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.sidebar {
+  grid-column: span 8;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
 }
 
-.featureCard:hover::before {
-  opacity: 1;
+/* Remove individual grid spans for sections */
+.marketOverview,
+.topMovers,
+.aiInsights,
+.tradingActivity,
+.quickActions {
+  grid-column: auto; /* Reset property */
 }
 
-.featureIcon {
-  font-size: 36px;
+.marketGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.moversGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.insightsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1F2937;
   margin-bottom: 1rem;
-  display: block;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.featureTitle {
-  font-size: 20px;
+.sectionIcon {
+  color: #667eea;
+}
+
+.marketCard,
+.moverCard,
+.insightCard,
+.statCard,
+.actionCard {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.marketCard:hover,
+.moverCard:hover,
+.insightCard:hover,
+.statCard:hover,
+.actionCard:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.insightCard {
+  min-height: auto;
+}
+
+.actionCard {
+  text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  flex-direction: row;
+}
+
+.actionIcon {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: #667eea;
+  display: block;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.loadingState {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #6B7280;
+  border: 1px dashed #d1d5db;
+  font-size: 0.875rem;
+  grid-column: 1 / -1; /* Make loading state span all columns */
+}
+
+.marketIndex {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4B5563;
+  margin-bottom: 0.5rem;
+}
+
+.marketValue {
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.marketChange {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.moverHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 0.75rem;
 }
 
-.featureDescription {
-  font-size: 15px;
+.moverSymbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.moverName {
+  font-size: 0.875rem;
   color: #6B7280;
-  line-height: 1.6;
 }
 
-.quickStats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.statCard {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.statCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.statCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.statCard:hover::before {
-  opacity: 1;
-}
-
-.statValue {
-  font-size: 32px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.moverStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
-  position: relative;
-  z-index: 1;
 }
 
-.statLabel {
-  font-size: 14px;
+.moverPrice {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.moverVolume {
+  font-size: 0.875rem;
   color: #6B7280;
+}
+
+.insightHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.insightSymbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.insightAction {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   position: relative;
-  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.insightAction.buy {
+  background: #DCFCE7;
+  color: #166534;
+  border: 1px solid #BBF7D0;
+}
+
+.insightAction.buy::before {
+  content: '▲';
+  font-size: 0.75rem;
+}
+
+.insightAction.sell {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+.insightAction.sell::before {
+  content: '▼';
+  font-size: 0.75rem;
+}
+
+.insightAction.hold {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.insightAction.hold::before {
+  content: '●';
+  font-size: 0.75rem;
+}
+
+.insightBody {
+  margin-bottom: 1rem;
+}
+
+.insightMetrics {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metricValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.insightReasoning {
+  font-size: 0.875rem;
+  color: #4B5563;
+  line-height: 1.5;
+}
+
+.insightLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.insightLink:hover {
+  text-decoration: underline;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 0.25rem;
+}
+
+.statSubtext {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+.actionCard h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0 0 0.25rem 0;
+}
+
+.actionCard p {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.actionButton {
+  margin-left: auto;
+  white-space: nowrap;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background: #5a67d8;
+}
+
+/* Utility Classes */
+.positive {
+  color: #059669;
+}
+
+.negative {
+  color: #DC2626;
 } 
+
+/* Add to Explore.module.css */
+
+/* AI Insights Carousel Container */
+.insightsCarouselContainer {
+  position: relative; /* Essential for positioning absolute navigation buttons */
+  display: flex;
+  align-items: center; /* Vertically center the insight card and buttons */
+  justify-content: center; /* Horizontally center the insight card */
+  min-height: 250px; /* Give it a minimum height to prevent collapse */
+  padding: 0 40px; /* Space for buttons */
+}
+
+.insightsCarouselContainer .insightCard {
+  /* Override flex-direction: column from .insightCard if needed */
+  flex-shrink: 0; /* Prevents card from shrinking */
+  width: 100%; /* Make the card take full width within its flex container */
+  max-width: 100%; /* Ensure it doesn't overflow */
+  box-sizing: border-box; /* Include padding/border in width */
+  margin: 0; /* Remove any previous margins */
+}
+
+/* Hide the default insightsGrid flex-direction column if it affects the carousel */
+/* If you had insightsGrid as `display: flex; flex-direction: column;`, change it or ensure it's not applied here.
+ The .insightsCarouselContainer replaces its direct purpose for insight cards.
+ So, the previous .insightsGrid styling should be removed for the AI Insights section or adjusted.
+ In the React component, I removed the `insightsGrid` class from the div that wraps the cards.
+*/
+
+
+/* Carousel Navigation Buttons */
+.carouselNavButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e5e7eb;
+  border-radius: 50%; /* Make them round */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #667eea;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  z-index: 10; /* Ensure buttons are above the card */
+}
+
+.carouselNavButton:hover {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carouselNavButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+.carouselNavButton.prev {
+  left: 10px;
+}
+
+.carouselNavButton.next {
+  right: 10px;
+}
+
+/* Carousel Dots (pagination) */
+.carouselDots {
+  position: absolute;
+  bottom: 10px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dot.activeDot {
+  background-color: #667eea;
+}
+
+
+/* Adjustments for the AI Insights section itself to contain the carousel */
+.aiInsights {
+  /* Ensure the section has a defined height or expands to fit content */
+  /* This section is a grid item now (span 6), so it will fill its column */
+  display: flex; /* Makes its content (title + carousel container) flex vertically */
+  flex-direction: column;
+  gap: 1rem; /* Space between title and carousel */
+}
+
+/* IMPORTANT: Re-evaluate .insightsGrid. If it was previously making cards display column-wise, it might conflict.
+ The new structure should render only one .insightCard directly inside .insightsCarouselContainer.
+ So, .insightsGrid (if used as the *wrapper* around multiple cards) should be removed from that div in React.
+ I've updated the React code to reflect this, having the single `insightCard` directly within `insightsCarouselContainer`.
+*/
+
+/* If your .loadingState or .noDataState are children of .insightsCarouselContainer,
+ you might need to adjust their positioning/width within that context if they look odd.
+ Currently, they span full width, which should be fine.
+*/
+
+/* Responsive adjustments for carousel buttons */
+@media (max-width: 768px) {
+  .carouselNavButton {
+      width: 30px;
+      height: 30px;
+      font-size: 1rem;
+  }
+  .carouselNavButton.prev {
+      left: 5px;
+  }
+  .carouselNavButton.next {
+      right: 5px;
+  }
+  .insightsCarouselContainer {
+      padding: 0 35px;
+  }
+}
+
+/* Ensure the .insightCard itself looks good when it's the only one displayed */
+.insightCard {
+  /* ... (your existing styles for insightCard) ... */
+  /* If it had a `margin-bottom` from previous list layout, remove it */
+  margin-bottom: 0;
+}
