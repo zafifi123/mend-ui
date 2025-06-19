@@ -1,71 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Watchlist.module.css';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
+import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../../../services/api';
 
-const MOCK_WATCHLIST = [
-  { symbol: 'AAPL', name: 'Apple Inc.', price: 175.5, change: '+1.2%', volume: 1200000, marketCap: '2.8T', sector: 'Technology' },
-  { symbol: 'TSLA', name: 'Tesla Inc.', price: 245.8, change: '-0.8%', volume: 900000, marketCap: '800B', sector: 'Automotive' },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation', price: 485.2, change: '+2.1%', volume: 1500000, marketCap: '1.2T', sector: 'Technology' },
-];
+// Helper to format market cap
+function formatMarketCap(value: number | string) {
+  if (value == null) return '-';
+  let num = value;
+  if (typeof value === 'string') {
+    num = Number(value.replace(/[,\s]/g, ''));
+  }
+  if (typeof num !== 'number') num = Number(num);
+  if (isNaN(num)) return '-';
+  if (num >= 1e12) return (num / 1e12).toFixed(2).replace(/\.00$/, '') + 'T';
+  if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.00$/, '') + 'B';
+  if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.00$/, '') + 'M';
+  if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.00$/, '') + 'K';
+  return num.toString();
+}
 
 export const Watchlist: React.FC = () => {
-  const [watchlist, setWatchlist] = useState(MOCK_WATCHLIST);
+  const [watchlist, setWatchlist] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [newSymbol, setNewSymbol] = useState('');
+  const [adding, setAdding] = useState(false);
+  const [removing, setRemoving] = useState<string | null>(null);
 
-  const handleRemove = (symbol: string) => {
-    setWatchlist(watchlist.filter(stock => stock.symbol !== symbol));
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getWatchlist();
+      setWatchlist(data);
+    } catch (e) {
+      setError('Failed to load watchlist');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAdd = () => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleRemove = async (symbol: string) => {
+    setRemoving(symbol);
+    try {
+      await removeFromWatchlist(symbol);
+      await fetchData();
+    } catch (e) {
+      setError('Failed to remove stock');
+    } finally {
+      setRemoving(null);
+    }
+  };
+
+  const handleAdd = async () => {
     if (!newSymbol.trim()) return;
-    setWatchlist([
-      ...watchlist,
-      { symbol: newSymbol.toUpperCase(), name: 'Mock Company', price: 100, change: '+0.0%', volume: 0, marketCap: '0', sector: 'Mock' },
-    ]);
-    setNewSymbol('');
-    setModalOpen(false);
+    setAdding(true);
+    try {
+      await addToWatchlist(newSymbol.toUpperCase());
+      setNewSymbol('');
+      setModalOpen(false);
+      await fetchData();
+    } catch (e) {
+      setError('Failed to add stock');
+    } finally {
+      setAdding(false);
+    }
   };
 
   return (
     <div className={styles.watchlist}>
       <h2>Your Watchlist</h2>
       <Button onClick={() => setModalOpen(true)} style={{ marginBottom: 16 }}>+ Add Stock</Button>
-      <div className={styles.watchlistTable}>
-        <div className={styles.tableHeader}>
-          <span>Symbol</span>
-          <span>Name</span>
-          <span>Price</span>
-          <span>Change</span>
-          <span>Volume</span>
-          <span>Market Cap</span>
-          <span>Sector</span>
-          <span></span>
-        </div>
-        {watchlist.length === 0 ? (
-          <div className={styles.placeholder}>
-            <p>Add stocks to your watchlist to track their performance</p>
+      {loading ? (
+        <div className={styles.placeholder}><p>Loading...</p></div>
+      ) : error ? (
+        <div className={styles.placeholder}><p>{error}</p></div>
+      ) : (
+        <div className={styles.watchlistTable}>
+          <div className={styles.tableHeader}>
+            <span>Symbol</span>
+            <span>Name</span>
+            <span>Price</span>
+            <span>Change</span>
+            <span>Volume</span>
+            <span>Market Cap</span>
+            <span>Sector</span>
+            <span></span>
           </div>
-        ) : (
-          watchlist.map(stock => (
-            <div className={styles.tableRow} key={stock.symbol}>
-              <span>{stock.symbol}</span>
-              <span>{stock.name}</span>
-              <span>${stock.price.toFixed(2)}</span>
-              <span className={stock.change.startsWith('+') ? styles.changePositive : styles.changeNegative}>{stock.change}</span>
-              <span>{stock.volume.toLocaleString()}</span>
-              <span>{stock.marketCap}</span>
-              <span>{stock.sector}</span>
-              <span className={styles.actionsCell}>
-                <button className={styles.actionButton} onClick={() => handleRemove(stock.symbol)}>
-                  <span className={styles.removeIcon}>×</span>
-                </button>
-              </span>
+          {watchlist.length === 0 ? (
+            <div className={styles.placeholder}>
+              <p>Add stocks to your watchlist to track their performance</p>
             </div>
-          ))
-        )}
-      </div>
+          ) : (
+            watchlist.map(stock => (
+              <div className={styles.tableRow} key={stock.symbol}>
+                <span>{stock.symbol}</span>
+                <span>{stock.name}</span>
+                <span>${Number(stock.price).toFixed(2)}</span>
+                <span className={stock.change.startsWith('+') ? styles.changePositive : styles.changeNegative}>{stock.change}</span>
+                <span>{Number(stock.volume).toLocaleString()}</span>
+                <span>{stock.marketCap ? formatMarketCap(stock.marketCap) : '-'}</span>
+                <span>{stock.sector}</span>
+                <span className={styles.actionsCell}>
+                  <button className={styles.actionButton} onClick={() => handleRemove(stock.symbol)} disabled={removing === stock.symbol}>
+                    <span className={styles.removeIcon}>×</span>
+                  </button>
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+      )}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Add to Watchlist">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <input
@@ -74,8 +125,9 @@ export const Watchlist: React.FC = () => {
             value={newSymbol}
             onChange={e => setNewSymbol(e.target.value)}
             style={{ padding: 8, borderRadius: 6, border: '1px solid #ccc' }}
+            disabled={adding}
           />
-          <Button onClick={handleAdd}>Add</Button>
+          <Button onClick={handleAdd} disabled={adding}>Add</Button>
         </div>
       </Modal>
     </div>

@@ -6,10 +6,18 @@ import { Explore } from './components/TabContent/Explore/Explore';
 import { Recommendations } from './components/TabContent/Recommendations/Recommendations';
 import { Watchlist } from './components/TabContent/Watchlist/Watchlist';
 import { TradeStatus } from './components/TabContent/TradeStatus/TradeStatus';
-import type { TabName } from './types';
+import type { TabName, QuickActionType } from './types';
 import styles from './App.module.css';
 
 const TAB_NAMES: TabName[] = ['Explore', 'Recommendations', 'Watchlist', 'Trade Status'];
+
+// Quick action to tab mapping
+const QUICK_ACTION_TAB_MAP: Record<QuickActionType, TabName> = {
+  'view-recommendations': 'Recommendations',
+  'view-trades': 'Trade Status',
+  'view-watchlist': 'Watchlist',
+  'add-to-watchlist': 'Watchlist',
+};
 
 // Custom hook for chat state management
 const useChatState = () => {
@@ -95,6 +103,14 @@ export default function App() {
   // Memoized tab content
   const TabContent = useMemo(() => TAB_CONTENT_MAP[activeTab], [activeTab]);
 
+  // Handle quick actions from chat window
+  const handleQuickAction = useCallback((action: QuickActionType) => {
+    const targetTab = QUICK_ACTION_TAB_MAP[action];
+    if (targetTab) {
+      setActiveTab(targetTab);
+    }
+  }, []);
+
   return (
     <div className={styles.page}>
       <Header />
@@ -117,6 +133,7 @@ export default function App() {
           onClose={closeChat} 
           position={chatPosition}
           onPositionChange={updateWindowPosition}
+          onQuickAction={handleQuickAction}
         />
       )}
     </div>
