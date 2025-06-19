@@ -122,4 +122,41 @@
   vertical-align: middle;
   font-weight: bold;
   line-height: 1;
+}
+
+.completeButton {
+  background: linear-gradient(90deg, #f59e42 0%, #fbbf24 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.35rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(245, 158, 66, 0.08);
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.completeButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.completingSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top: 2px solid #fbbf24;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 } 

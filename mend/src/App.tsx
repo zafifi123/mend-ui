@@ -27,9 +27,10 @@ const useChatState = () => {
 
   // Initialize chat position
   useEffect(() => {
-    const centerX = window.innerWidth / 2 - 35;
-    const centerY = window.innerHeight / 2 - 35;
-    setChatPosition({ x: centerX, y: centerY });
+    // Default to top right: 32px from top/right
+    const x = window.innerWidth - 102; // 70px width + 32px margin
+    const y = 32;
+    setChatPosition({ x, y });
   }, []);
 
   const openChat = useCallback(() => setChatOpen(true), []);

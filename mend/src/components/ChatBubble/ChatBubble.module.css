@@ -22,6 +22,10 @@
   animation: float 3s ease-in-out infinite;
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.3);
+  top: 32px;
+  right: 32px;
+  left: unset;
+  bottom: unset;
 }
 
 .chatBubble:hover {
@@ -90,4 +94,11 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
   pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .chatBubble {
+    top: 16px;
+    right: 16px;
+  }
 } 

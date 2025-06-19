@@ -1,7 +1,5 @@
 const API_BASE = 'http://localhost:8000/api';
 
-// Mock API for Mend Trading App
-
 // --- Watchlist ---
 export async function getWatchlist() {
   const res = await fetch(`${API_BASE}/watchlist`);
@@ -25,20 +23,10 @@ export async function removeFromWatchlist(symbol: string) {
   return res.json();
 }
 
-// --- Trades ---
-export async function getTradeHistory() {
-  const res = await fetch(`${API_BASE}/trades/history`);
-  if (!res.ok) throw new Error('Failed to fetch trade history');
-  return res.json();
-}
-export async function getActiveTrades() {
-  const res = await fetch(`${API_BASE}/trades/active`);
+// Trades
+export async function getTrades() {
+  const res = await fetch(`${API_BASE}/trades`);
   if (!res.ok) throw new Error('Failed to fetch active trades');
-  return res.json();
-}
-export async function getPendingOrders() {
-  const res = await fetch(`${API_BASE}/trades/pending`);
-  if (!res.ok) throw new Error('Failed to fetch pending orders');
   return res.json();
 }
 export async function addTrade(trade: any) {
@@ -64,6 +52,15 @@ export async function deleteTrade(trade_id: number) {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete trade');
+  return res.json();
+}
+export async function completeTrade(trade_id: number | string) {
+  const res = await fetch(`${API_BASE}/trades/${trade_id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'completed' }),
+  });
+  if (!res.ok) throw new Error('Failed to complete trade');
   return res.json();
 }
 

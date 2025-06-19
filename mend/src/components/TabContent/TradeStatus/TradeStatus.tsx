@@ -2,44 +2,31 @@ import React, { useState, useEffect } from 'react';
 import styles from './TradeStatus.module.css';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
-import { getTradeHistory, getActiveTrades, getPendingOrders } from '../../../services/api';
+import { getTrades, completeTrade } from '../../../services/api';
 
 export const TradeStatus: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTrade, setSelectedTrade] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTrades, setActiveTrades] = useState<any[]>([]);
-  const [pendingOrders, setPendingOrders] = useState<any[]>([]);
-  const [tradeHistory, setTradeHistory] = useState<any[]>([]);
+  const [trades, setTrades] = useState<any[]>([]);
+  const [completing, setCompleting] = useState<string | number | null>(null);
 
-  const fetchData = async () => {
+  const fetchTrades = () => {
     setLoading(true);
-    setError(null);
-    try {
-      const [active, pending, history] = await Promise.all([
-        getActiveTrades(),
-        getPendingOrders(),
-        getTradeHistory(),
-      ]);
-      setActiveTrades(active);
-      setPendingOrders(pending);
-      setTradeHistory(history);
-    } catch (e) {
-      setError('Failed to load trades');
-    } finally {
-      setLoading(false);
-    }
+    getTrades()
+      .then((resp) => {
+        setTrades(resp);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    fetchData();
+    fetchTrades();
   }, []);
 
-  const trades = [...activeTrades, ...pendingOrders, ...tradeHistory];
-
   // Calculate P&L (mock logic, replace with real if available)
-  const totalPL = tradeHistory.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0) - (activeTrades.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0) + pendingOrders.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0));
+  const totalPL = trades.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0) - (trades.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0) + trades.reduce((acc, t) => acc + (Number(t.price) * Number(t.quantity)), 0));
   const todayPL = 0; // You can implement real logic if you have timestamps
 
   const handleView = (trade: any) => {
@@ -59,11 +46,11 @@ export const TradeStatus: React.FC = () => {
           <div className={styles.statusGrid}>
             <div className={styles.statusCard}>
               <h3>Active Trades</h3>
-              <div className={styles.value}>{activeTrades.length}</div>
+              <div className={styles.value}>{trades.length}</div>
             </div>
             <div className={styles.statusCard}>
               <h3>Pending Orders</h3>
-              <div className={styles.value}>{pendingOrders.length}</div>
+              <div className={styles.value}>{trades.length}</div>
             </div>
             <div className={styles.statusCard}>
               <h3>Today's P&L</h3>
@@ -87,15 +74,31 @@ export const TradeStatus: React.FC = () => {
                 <span></span>
               </div>
               {trades.map(trade => (
-                <div className={styles.tableRow} key={trade.id}>
+                <div className={styles.tableRow} key={trade.id || (trade.symbol + '-' + (trade.executed_at || ''))}>
                   <span>{trade.symbol}</span>
                   <span>{trade.action}</span>
                   <span>${Number(trade.price).toFixed(2)}</span>
                   <span>{trade.quantity}</span>
                   <span>{trade.status}</span>
                   <span>{trade.executed_at || '-'}</span>
-                  <span>
+                  <span style={{ display: 'flex', gap: 8 }}>
                     <Button onClick={() => handleView(trade)} style={{ background: '#3182ce' }}>View</Button>
+                    {trade.status === 'active' && (
+                      <button
+                        className={styles.completeButton}
+                        onClick={async () => {
+                          setCompleting(trade.id || (trade.symbol + '-' + (trade.executed_at || '')));
+                          await completeTrade(trade.id);
+                          setCompleting(null);
+                          fetchTrades();
+                        }}
+                        disabled={completing === (trade.id || (trade.symbol + '-' + (trade.executed_at || '')))}
+                      >
+                        {completing === (trade.id || (trade.symbol + '-' + (trade.executed_at || '')))
+                          ? <span className={styles.completingSpinner}></span>
+                          : 'Complete'}
+                      </button>
+                    )}
                   </span>
                 </div>
               ))}
