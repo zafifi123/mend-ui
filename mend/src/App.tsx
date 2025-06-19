@@ -89,9 +89,19 @@ const Navigation: React.FC<{
   </nav>
 );
 
+// Helper to get initial tab from URL
+const getInitialTab = (): TabName => {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get('tab');
+  if (tab && TAB_NAMES.includes(tab as TabName)) {
+    return tab as TabName;
+  }
+  return 'Explore';
+};
+
 // Main App component
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabName>('Explore');
+  const [activeTab, setActiveTab] = useState<TabName>(getInitialTab());
   const {
     chatOpen,
     chatPosition,
@@ -103,6 +113,13 @@ export default function App() {
 
   // Memoized tab content
   const TabContent = useMemo(() => TAB_CONTENT_MAP[activeTab], [activeTab]);
+
+  // Update URL when tab changes
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', activeTab);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+  }, [activeTab]);
 
   // Handle quick actions from chat window
   const handleQuickAction = useCallback((action: QuickActionType) => {

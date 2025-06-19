@@ -69,7 +69,7 @@
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 60px 32px;
+  grid-template-columns: 40px 1.2fr 1.2fr 1fr 1fr 1fr 1.2fr 70px;
   padding: 1rem 1.5rem;
   background-color: #F9FAFB;
   border-bottom: 1px solid #E5E7EB;
@@ -79,11 +79,11 @@
 
 .tableRow {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 60px 32px;
+  grid-template-columns: 40px 1.2fr 1.2fr 1fr 1fr 1fr 1.2fr 70px;
   align-items: center;
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid #F1F5F9;
-  font-size: 1rem;
+  font-size: 0.97rem;
   transition: background 0.2s;
 }
 
@@ -91,37 +91,50 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 0.25rem;
   height: 100%;
 }
 
-.actionButton {
+.actionIconButton {
   background: none;
   border: none;
-  color: #6b7280;
-  font-size: 1.2rem;
+  color: #f59e42;
+  font-size: 1.3rem;
   cursor: pointer;
-  padding: 0;
-  margin: 0;
-  transition: color 0.2s;
-  box-shadow: none;
-  border-radius: 0;
-  display: flex;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.actionButton:hover {
-  color: #374151;
-  background: none;
+.actionIconButton:hover {
+  background: #fbbf2433;
+  color: #b45309;
 }
 
-.removeIcon {
-  font-size: 1.2em;
-  margin: 0;
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: bold;
-  line-height: 1;
+.actionIconButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.actionIconButton[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.95;
+  z-index: 10;
 }
 
 .completeButton {
@@ -159,4 +172,361 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.iconMarginRight {
+  margin-right: 8px;
+}
+
+.tableCheckbox {
+  width: 22px;
+  height: 22px;
+  accent-color: #667eea;
+  cursor: pointer;
+  margin: 0;
+  display: block;
+}
+
+.pendingAllocationsBox {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e42 100%);
+  border-radius: 1rem;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 66, 0.08);
+  color: #1F2937;
+  gap: 2rem;
+  position: relative;
+}
+
+.llamaMascot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(245, 158, 66, 0.12);
+  margin-right: 1.5rem;
+}
+
+.allocateButton {
+  background: linear-gradient(90deg, #22c55e 0%, #10b981 100%);
+  color: white;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.allocateButton:hover {
+  background: linear-gradient(90deg, #10b981 0%, #22c55e 100%);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12);
+}
+
+.allocationUI {
+  background: #fff7ed;
+  border: 2px solid #fbbf24;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 66, 0.08);
+  color: #1F2937;
+  position: relative;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.allocationUI h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #b45309;
+}
+
+.balanceDisplay {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(245, 158, 66, 0.1);
+}
+
+.allocationTable {
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(245, 158, 66, 0.1);
+  position: relative;
+}
+
+.allocationHeader {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  color: #b45309;
+  border-bottom: 2px solid #fbbf24;
+  margin-bottom: 0.5rem;
+}
+
+.allocationRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  position: relative;
+  background: #fff;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 1px 2px rgba(245, 158, 66, 0.05);
+  transition: all 0.2s ease;
+}
+
+.allocationRow:hover {
+  box-shadow: 0 2px 4px rgba(245, 158, 66, 0.1);
+  transform: translateY(-1px);
+}
+
+.allocationRow > span {
+  font-size: 1rem;
+}
+
+.allocationRow > span:first-child {
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.quantityInput {
+  width: 100px;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #fbbf24;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #fffbe9;
+  color: #1F2937;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.quantityInput:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+}
+
+.rowActions {
+  position: absolute;
+  right: -110px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.acceptButton, .declineButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.acceptButton {
+  background: #22c55e;
+  color: white;
+}
+
+.acceptButton:hover {
+  background: #16a34a;
+  transform: scale(1.05);
+}
+
+.declineButton {
+  background: #f43f5e;
+  color: white;
+}
+
+.declineButton:hover {
+  background: #e11d48;
+  transform: scale(1.05);
+}
+
+.aiExplanation {
+  position: absolute;
+  right: -350px;
+  width: 220px;
+  background: white;
+  border: 1px solid #fbbf24;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #1F2937;
+  box-shadow: 0 4px 6px rgba(245, 158, 66, 0.1);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.allocationRow:hover .aiExplanation {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.allocationActions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.aiButton, .confirmButton, .cancelButton {
+  min-width: 160px;
+  padding: 0.8rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.aiButton {
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+
+.aiButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.aiButton:hover:not(:disabled) {
+  background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  transform: translateY(-1px);
+}
+
+.confirmButton {
+  background: linear-gradient(90deg, #22c55e 0%, #10b981 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+}
+
+.confirmButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: linear-gradient(90deg, #10b981 0%, #22c55e 100%);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+  transform: translateY(-1px);
+}
+
+.cancelButton {
+  background: #fbbf24;
+  color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 66, 0.15);
+}
+
+.cancelButton:hover {
+  background: #f59e42;
+  box-shadow: 0 4px 12px rgba(245, 158, 66, 0.2);
+  transform: translateY(-1px);
+}
+
+.statusPending {
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e42 100%);
+  color: #7c4700;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25em 1em;
+  font-size: 0.98em;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(245, 158, 66, 0.08);
+}
+
+.statusActive {
+  background: linear-gradient(90deg, #22c55e 0%, #10b981 100%);
+  color: #065f46;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25em 1em;
+  font-size: 0.98em;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(34, 197, 94, 0.08);
+}
+
+.statusCompleted {
+  background: linear-gradient(90deg, #60a5fa 0%, #64748b 100%);
+  color: #1e293b;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25em 1em;
+  font-size: 0.98em;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.08);
+}
+
+.statusDefault {
+  background: #e5e7eb;
+  color: #374151;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25em 1em;
+  font-size: 0.98em;
+  display: inline-block;
+}
+
+.aiButton {
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.aiButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.aiButton:hover:not(:disabled) {
+  background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
 } 

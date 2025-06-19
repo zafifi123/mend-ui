@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Recommendations.module.css';
 import Modal from '../../common/Modal';
 import Button from '../../common/Button';
-import { getRecommendations, addRecommendationToWatchlist, addTrade } from '../../../services/api';
+import { getRecommendations, addRecommendationToWatchlist, addTrade, acceptRecommendation } from '../../../services/api';
 
 export const Recommendations: React.FC = () => {
   const [risk, setRisk] = useState('All Levels');
@@ -33,6 +33,10 @@ export const Recommendations: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    console.log('Recommendations:', recommendations);
+  }, [recommendations]);
+
   const filtered = recommendations.filter(rec =>
     (risk === 'All Levels' || rec.risk_level === risk) &&
     (timeframe === 'All Timeframes' || rec.timeframe === timeframe) &&
@@ -61,15 +65,9 @@ export const Recommendations: React.FC = () => {
     setAcceptMsg('');
     setConfettiPieces(generateConfetti());
     try {
-      await addTrade({
-        symbol: rec.symbol,
-        action: rec.action,
-        price: rec.price_target,
-        quantity: 1,
-        status: 'active',
-        executed_at: new Date().toISOString(),
-      });
+      await acceptRecommendation(rec.id);
       setAcceptMsg('Trade accepted and added!');
+      setRecommendations(prev => prev.filter(r => (r.id ?? r.symbol) !== (rec.id ?? rec.symbol)));
     } catch {
       setAcceptMsg('Failed to accept trade.');
     } finally {
@@ -77,7 +75,6 @@ export const Recommendations: React.FC = () => {
         setShowAcceptAnim(false);
         setAccepting(null);
         setAcceptMsg('');
-        setRecommendations(prev => prev.filter(r => r.symbol !== rec.symbol));
         setConfettiPieces([]);
       }, 2000);
     }
