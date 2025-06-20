@@ -1,0 +1,34 @@
+.historyPage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.historySection {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1F2937;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+}
+
+.placeholder, .errorState {
+    text-align: center;
+    padding: 2rem;
+    color: #6B7280;
+    font-style: italic;
+}
+
+.errorState {
+    color: #ef4444;
+    font-weight: 500;
+} 

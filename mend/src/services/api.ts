@@ -408,3 +408,19 @@ export async function getUserStats(): Promise<any> {
   if (!res.ok) throw new Error('Failed to fetch user stats');
   return res.json();
 }
+
+// --- History ---
+
+// Get trade history (completed, canceled trades)
+export async function getTradeHistory(): Promise<any[]> {
+    const res = await fetch(`${API_BASE}/trades/history?user_id=123`);
+    if (!res.ok) throw new Error('Failed to fetch trade history');
+    return res.json();
+}
+
+// Get recommendation history (unaccepted recommendations)
+export async function getRecommendationHistory(): Promise<any[]> {
+    const res = await fetch(`${API_BASE}/recommendations/history?user_id=123`);
+    if (!res.ok) throw new Error('Failed to fetch recommendation history');
+    return res.json();
+}

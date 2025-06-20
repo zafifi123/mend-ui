@@ -6,10 +6,12 @@ import { Explore } from './components/TabContent/Explore/Explore';
 import { Recommendations } from './components/TabContent/Recommendations/Recommendations';
 import { Watchlist } from './components/TabContent/Watchlist/Watchlist';
 import { TradeStatus } from './components/TabContent/TradeStatus/TradeStatus';
+import History from './components/TabContent/History/History';
+import Footer from './components/common/Footer/Footer';
 import type { TabName, QuickActionType } from './types';
 import styles from './App.module.css';
 
-const TAB_NAMES: TabName[] = ['Explore', 'Recommendations', 'Watchlist', 'Trade Status'];
+const TAB_NAMES: TabName[] = ['Explore', 'Recommendations', 'Watchlist', 'Trade Status', 'History'];
 
 // Quick action to tab mapping
 const QUICK_ACTION_TAB_MAP: Record<QuickActionType, TabName> = {
@@ -59,6 +61,7 @@ const TAB_CONTENT_MAP = {
   Recommendations,
   Watchlist,
   'Trade Status': TradeStatus,
+  History,
 } as const;
 
 // Header component
@@ -154,6 +157,7 @@ export default function App() {
           onQuickAction={handleQuickAction}
         />
       )}
+      <Footer />
     </div>
   );
 }

@@ -21,6 +21,6 @@ export interface TabContentProps {
   activeTab: string;
 }
 
-export type TabName = 'Explore' | 'Recommendations' | 'Watchlist' | 'Trade Status';
+export type TabName = 'Explore' | 'Recommendations' | 'Watchlist' | 'Trade Status' | 'History';
 
 export type QuickActionType = 'view-recommendations' | 'view-trades' | 'view-watchlist' | 'add-to-watchlist'; 
