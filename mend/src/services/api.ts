@@ -404,7 +404,7 @@ export async function getMarketOverview(): Promise<any[]> {
 
 // Get user stats
 export async function getUserStats(): Promise<any> {
-  const res = await fetch(`${API_BASE}/users/123/stats`);
+  const res = await fetch(`${API_BASE}/user/stats?user_id=123`);
   if (!res.ok) throw new Error('Failed to fetch user stats');
   return res.json();
 }

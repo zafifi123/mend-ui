@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Explore.module.css';
 import { FaChartLine, FaChartBar, FaRobot, FaRegBell, FaSearch, FaExternalLinkAlt, FaLightbulb, FaExchangeAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Ensure these are imported
 import { getMarketOverview, getTopMovers, getRecommendations, getUserStats } from '../../../services/api';
+import LoadingSpinner from '../../common/LoadingSpinner/LoadingSpinner';
 
 // --- Interfaces ---
 interface MarketData {
@@ -87,6 +88,12 @@ export const Explore: React.FC = () => {
         recommendations: true,
         stats: false
     });
+    const [error, setError] = useState({
+        market: '',
+        movers: '',
+        recommendations: '',
+        stats: ''
+    });
 
     // State for AI Insights carousel
     const [currentInsightIndex, setCurrentInsightIndex] = useState(0);
@@ -111,33 +118,47 @@ export const Explore: React.FC = () => {
 
     useEffect(() => {
         setLoading(prev => ({ ...prev, recommendations: true }));
+        setError(prev => ({ ...prev, recommendations: '' }));
         getRecommendations()
             .then(data => {
                 setAiRecommendations(data);
                 setCurrentInsightIndex(0);
             })
-            .catch(error => console.error("Error fetching recommendations:", error))
+            .catch(error => {
+                setError(prev => ({ ...prev, recommendations: 'Failed to load AI recommendations.' }));
+                console.error("Error fetching recommendations:", error)
+            })
             .finally(() => setLoading(prev => ({ ...prev, recommendations: false })));
 
-        /* Uncomment and adapt for real API calls:
         setLoading(prev => ({ ...prev, market: true }));
+        setError(prev => ({ ...prev, market: '' }));
         getMarketOverview()
             .then(setMarketData)
-            .catch(error => console.error("Error fetching market overview:", error))
+            .catch(error => {
+                setError(prev => ({ ...prev, market: 'Failed to load market overview.' }));
+                console.error("Error fetching market overview:", error)
+            })
             .finally(() => setLoading(prev => ({ ...prev, market: false })));
 
         setLoading(prev => ({ ...prev, movers: true }));
+        setError(prev => ({ ...prev, movers: '' }));
         getTopMovers()
             .then(setTopMovers)
-            .catch(error => console.error("Error fetching top movers:", error))
+            .catch(error => {
+                setError(prev => ({ ...prev, movers: 'Failed to load top movers.' }));
+                console.error("Error fetching top movers:", error)
+            })
             .finally(() => setLoading(prev => ({ ...prev, movers: false })));
 
         setLoading(prev => ({ ...prev, stats: true }));
+        setError(prev => ({ ...prev, stats: '' }));
         getUserStats()
             .then(setUserStats)
-            .catch(error => console.error("Error fetching user stats:", error))
+            .catch(error => {
+                setError(prev => ({ ...prev, stats: 'Failed to load user stats.' }));
+                console.error("Error fetching user stats:", error)
+            })
             .finally(() => setLoading(prev => ({ ...prev, stats: false })));
-        */
     }, []);
 
     const currentInsight = aiRecommendations[currentInsightIndex];
@@ -187,7 +208,9 @@ export const Explore: React.FC = () => {
                 </h2>
                 <div className={styles.insightsCarouselContainer}>
                     {loading.recommendations ? (
-                        <div className={styles.loadingState}>Loading AI insights...</div>
+                        <LoadingSpinner message="Loading AI insights..." />
+                    ) : error.recommendations ? (
+                        <div className={styles.errorState}>{error.recommendations}</div>
                     ) : aiRecommendations.length > 0 ? (
                         <>
                             {/* Previous Button - Now correctly includes the icon */}
@@ -259,7 +282,9 @@ export const Explore: React.FC = () => {
                 </h2>
                 <div className={styles.marketGrid}>
                     {loading.market ? (
-                        <div className={styles.loadingState}>Loading market data...</div>
+                        <LoadingSpinner message="Loading market data..." />
+                    ) : error.market ? (
+                        <div className={styles.errorState}>{error.market}</div>
                     ) : (
                         marketData.map(index => (
                             <div key={index.index} className={styles.marketCard}>
@@ -282,7 +307,9 @@ export const Explore: React.FC = () => {
                 </h2>
                 <div className={styles.moversGrid}>
                     {loading.movers ? (
-                        <div className={styles.loadingState}>Loading top movers...</div>
+                        <LoadingSpinner message="Loading top movers..." />
+                    ) : error.movers ? (
+                        <div className={styles.errorState}>{error.movers}</div>
                     ) : (
                         topMovers.map(mover => (
                             <div key={mover.symbol} className={styles.moverCard}>
@@ -312,7 +339,9 @@ export const Explore: React.FC = () => {
                     Your Trading Activity
                 </h2>
                 {loading.stats ? (
-                    <div className={styles.loadingState}>Loading your stats...</div>
+                    <LoadingSpinner message="Loading your stats..." />
+                ) : error.stats ? (
+                    <div className={styles.errorState}>{error.stats}</div>
                 ) : userStats && (
                     <div className={styles.statsGrid}>
                         <div className={styles.statCard}>

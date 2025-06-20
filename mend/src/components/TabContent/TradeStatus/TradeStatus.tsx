@@ -4,6 +4,7 @@ import Button from '../../common/Button';
 import Modal from '../../common/Modal';
 import { getTrades, completeTrade, deleteTrade, allocateTrades, getUserBalance, updateUserBalance, suggestAllocationsWithAI } from '../../../services/api';
 import { FaEye, FaTrashAlt, FaCheckCircle, FaRegSmileBeam } from 'react-icons/fa';
+import LoadingSpinner from '../../common/LoadingSpinner/LoadingSpinner';
 
 export const TradeStatus: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -347,7 +348,7 @@ export const TradeStatus: React.FC = () => {
             <p>You have {pendingAllocations.length} trade(s) waiting for quantity allocation!</p>
             <div className={styles.balanceDisplay}>
               {balanceLoading || userBalance === null ? (
-                <span>Loading balance...</span>
+                <LoadingSpinner size={16} />
               ) : (
                 <>
                   Balance: <b>${userBalance.toLocaleString()}</b>
@@ -366,7 +367,7 @@ export const TradeStatus: React.FC = () => {
           <h3>Allocate Quantities</h3>
           <div className={styles.balanceDisplay}>
             {balanceLoading || userBalance === null ? (
-              <span>Loading balance...</span>
+              <LoadingSpinner size={16} />
             ) : (
               <>
                 Balance: <b>${userBalance.toLocaleString()}</b> | Allocated: <b>${totalAllocated.toLocaleString()}</b> | Remaining: <b style={{ color: remainingBalance < 0 ? '#f43f5e' : '#22c55e' }}>${remainingBalance.toLocaleString()}</b>
@@ -426,10 +427,10 @@ export const TradeStatus: React.FC = () => {
           {allocationError && <div className={styles.allocationError}>{allocationError}</div>}
           <div className={styles.allocationActions}>
             <button className={styles.aiButton} onClick={handleAskAI} disabled={aiLoading}>
-              {aiLoading ? 'Thinking...' : '🤖 Ask AI'}
+              {aiLoading ? <LoadingSpinner size={16} /> : '🤖 Ask AI'}
             </button>
             <button className={styles.confirmButton} onClick={handleConfirmAllocations} disabled={userBalance === null || totalAllocated > userBalance || totalAllocated === 0 || allocatingApi}>
-              {allocatingApi ? 'Allocating...' : 'Confirm Purchases'}
+              {allocatingApi ? <LoadingSpinner size={16} /> : 'Confirm Purchases'}
             </button>
             <button className={styles.cancelButton} onClick={() => setAllocating(false)}>
               Cancel
@@ -440,7 +441,7 @@ export const TradeStatus: React.FC = () => {
       )}
       <h2>Trade Status</h2>
       {loading ? (
-        <div className={styles.placeholder}><p>Loading...</p></div>
+        <LoadingSpinner message="Loading trades..." />
       ) : error ? (
         <div className={styles.placeholder}><p>{error}</p></div>
       ) : (

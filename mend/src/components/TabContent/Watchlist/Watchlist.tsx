@@ -3,6 +3,7 @@ import styles from './Watchlist.module.css';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
 import { getWatchlist, addToWatchlist, removeFromWatchlist } from '../../../services/api';
+import LoadingSpinner from '../../common/LoadingSpinner/LoadingSpinner';
 
 // Helper to format market cap
 function formatMarketCap(value: number | string) {
@@ -78,7 +79,7 @@ export const Watchlist: React.FC = () => {
       <h2>Your Watchlist</h2>
       <Button onClick={() => setModalOpen(true)} style={{ marginBottom: 16 }}>+ Add Stock</Button>
       {loading ? (
-        <div className={styles.placeholder}><p>Loading...</p></div>
+        <LoadingSpinner message="Loading watchlist..." />
       ) : error ? (
         <div className={styles.placeholder}><p>{error}</p></div>
       ) : (

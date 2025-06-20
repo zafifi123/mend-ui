@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchNews } from '../services/api';
+import LoadingSpinner from './common/LoadingSpinner/LoadingSpinner';
 
 interface NewsArticle {
   title: string;
@@ -20,7 +21,7 @@ export default function NewsWidget({ symbol }: { symbol: string }) {
     <div className="widget-card">
       <h2 className="widget-title">📈 Latest News for {symbol}</h2>
       {loading ? (
-        <p>Loading...</p>
+        <LoadingSpinner message={`Loading news for ${symbol}...`} />
       ) : (
         <ul className="news-list">
           {articles.slice(0, 5).map((article, i) => (
